@@ -2,35 +2,46 @@ package model
 
 import (
 	"database/sql"
+	"errors"
 	"server/user/model/user"
 )
 
-func RegisterUser(username string, password string, db *sql.DB) user.User {
-	stmt, err := db.Prepare("INSERT User SET username=?, password?")
-	checkError(err)
+//RegisterUser returns a user-object if succsesfuly created in db
+func RegisterUser(username string, password string, db *sql.DB) error {
+	tx, err := db.Begin()
+	stmt, err := db.Prepare("INSERT User SET username=?, password=?")
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
 	_, err = stmt.Exec(username, password)
-	checkError(err)
-	
-	return Login(username, db)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+	tx.Commit()
+	return nil
 }
 
-func Login(username string, db *sql.DB) user.User {
+//Login returns a user-object if found in db
+func Login(username string, db *sql.DB) (*user.User, error) {
 	stmt, err := db.Prepare("SELECT * FROM User WHERE username=?")
-	checkError(err)
+	if err != nil {
+		return nil, err
+	}
 	res, err := stmt.Query(username)
-	checkError(err)
+	if err != nil {
+		return nil, err
+	}
 	for res.Next() {
 		var uid int
 		var username string
 		var password string
 		err = res.Scan(&uid, &username, &password)
-		return user.User{uid, username, password}
+		if err != nil {
+			return nil, err
+		}
+		return &user.User{uid, username, password}, nil
 	}
-	return user.User{nil, nil, nil}
-}
-
-func checkError(err error) {
-	if err != nil {
-		panic(err)
-	}
+	return nil, errors.New("No User")
 }

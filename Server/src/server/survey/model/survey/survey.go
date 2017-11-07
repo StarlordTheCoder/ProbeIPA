@@ -1,12 +1,12 @@
 package survey
 
 type Survey struct {
-	Id int
+	Id       int
 	Question string
 	Choices  []Choice
 }
 
 type Choice struct {
-	Id int
+	Id     int
 	Choice string
 }

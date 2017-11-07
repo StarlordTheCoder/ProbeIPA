@@ -1,10 +1,19 @@
 package answers
 
-type Answer struct {
-	idchoice string
+type GivenAnswer struct {
+	IdChoice int
+	Choice   string
+	Amount   int
 }
 
-type Answers struct {
-	Answers []Answer
+type GivenAnswers struct {
+	GivenAnswers []GivenAnswer
 }
 
+type NewAnswer struct {
+	IDChoice string
+}
+
+type NewAnswers struct {
+	NewAnswers []NewAnswer
+}
