@@ -21,9 +21,9 @@ USE `survey_db` ;
 -- Table `survey_db`.`User`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `survey_db`.`User` (
-  `idUser` INT NOT NULL,
+  `idUser` INT NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(45) NOT NULL,
-  `password` VARCHAR(45) NOT NULL,
+  `password` BINARY(60) NOT NULL,
   PRIMARY KEY (`idUser`),
   UNIQUE INDEX `idUser_UNIQUE` (`idUser` ASC),
   UNIQUE INDEX `username_UNIQUE` (`username` ASC))
@@ -34,7 +34,7 @@ ENGINE = InnoDB;
 -- Table `survey_db`.`Survey`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `survey_db`.`Survey` (
-  `idSurvey` INT NOT NULL,
+  `idSurvey` INT NOT NULL AUTO_INCREMENT,
   `question` VARCHAR(255) NOT NULL,
   `User_idUser` INT NOT NULL,
   PRIMARY KEY (`idSurvey`),
@@ -52,7 +52,7 @@ ENGINE = InnoDB;
 -- Table `survey_db`.`Choices`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `survey_db`.`Choices` (
-  `idChoices` INT NOT NULL,
+  `idChoices` INT NOT NULL AUTO_INCREMENT,
   `choice` VARCHAR(140) NOT NULL,
   `Survey_idSurvey` INT NOT NULL,
   PRIMARY KEY (`idChoices`),
@@ -70,18 +70,8 @@ ENGINE = InnoDB;
 -- Table `survey_db`.`Results`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `survey_db`.`Results` (
-  `idresults` INT NOT NULL,
-  `User_idUser` INT NOT NULL,
-  `Choices_idChoices` INT NOT NULL,
-  PRIMARY KEY (`idresults`),
-  INDEX `fk_results_User1_idx` (`User_idUser` ASC),
+  `Choices_idChoices` INT NOT NULL AUTO_INCREMENT,
   INDEX `fk_results_Choices1_idx` (`Choices_idChoices` ASC),
-  UNIQUE INDEX `idresults_UNIQUE` (`idresults` ASC),
-  CONSTRAINT `fk_results_User1`
-    FOREIGN KEY (`User_idUser`)
-    REFERENCES `survey_db`.`User` (`idUser`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
   CONSTRAINT `fk_results_Choices1`
     FOREIGN KEY (`Choices_idChoices`)
     REFERENCES `survey_db`.`Choices` (`idChoices`)
