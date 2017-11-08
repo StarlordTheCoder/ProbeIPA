@@ -7,4 +7,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app';
+  public get isLogedin() {
+    const savedUsername = sessionStorage.getItem('username');
+    return  savedUsername !== '' || savedUsername !== undefined;
+  }
 }

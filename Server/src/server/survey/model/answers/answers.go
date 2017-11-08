@@ -11,7 +11,7 @@ type GivenAnswers struct {
 }
 
 type NewAnswer struct {
-	IDChoice string
+	IDChoice int
 }
 
 type NewAnswers struct {

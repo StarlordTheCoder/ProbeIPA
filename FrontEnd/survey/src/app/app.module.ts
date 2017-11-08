@@ -9,13 +9,17 @@ import { RegisterComponent } from './register/register.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { Const } from './const';
+import { MainAdminComponent } from './main-admin/main-admin.component';
+import { SurveyComponent } from './survey/survey.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    MainAdminComponent,
+    SurveyComponent,
   ],
   imports: [
     BrowserModule,

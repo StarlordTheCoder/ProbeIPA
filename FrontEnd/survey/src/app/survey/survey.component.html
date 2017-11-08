@@ -1,0 +1,15 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div class="row">  
+  <div class="col-md-6 col-md-offset-3 col-sm-12 text-center">
+      <ul class="list-group">
+          <li class="list-group-item">
+              <h1>{{surveys.Question}}</h1>
+          </li>
+          <li *ngFor="let choice of surveys.Choices" class="list-group-item">
+            <input type="checkbox" style="float: left" (ngModelChange)="checkBox(choice.Id)">
+            {{choice.Choice}}
+          </li>
+      </ul>
+      <button type="button" class="btn btn-primary" (click)="answerSurvey()">Send</button>
+  </div> <!-- /container -->
+</div>

@@ -33,7 +33,7 @@ func GetSurvey(idSurvey int, db *sql.DB) (*[]byte, error) {
 }
 
 func GetSurveyByUser(idUser int, db *sql.DB) (*[]byte, error) {
-	surveys, err := model.GetSurvey(idUser, db)
+	surveys, err := model.GetSurveyByUser(idUser, db)
 	if err != nil {
 		return nil, err
 	}
