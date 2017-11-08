@@ -35,7 +35,7 @@ func Register(res http.ResponseWriter, req *http.Request) {
 		http.Error(res, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
 		return
 	}
-	res.WriteHeader(http.StatusOK)
+	res.WriteHeader(http.StatusNoContent)
 }
 
 func Login(res http.ResponseWriter, req *http.Request) {
@@ -54,7 +54,7 @@ func Login(res http.ResponseWriter, req *http.Request) {
 		http.Error(res, http.StatusText(http.StatusUnauthorized), http.StatusUnauthorized)
 		return
 	}
-	res.WriteHeader(http.StatusOK)
+	res.WriteHeader(http.StatusNoContent)
 }
 
 func CreateSurvey(res http.ResponseWriter, req *http.Request) {
@@ -89,14 +89,6 @@ func GetSurvey(res http.ResponseWriter, req *http.Request) {
 	fmt.Println("d")
 	vars := mux.Vars(req)
 	id, _ := strconv.Atoi(vars["id"])
-	username := req.Header.Get("username")
-	password := req.Header.Get("password")
-	_, err := authorisation.Authorisate(username, password, db.Db)
-	if err != nil {
-		fmt.Println(err)
-		http.Error(res, http.StatusText(http.StatusUnauthorized), http.StatusUnauthorized)
-		return
-	}
 	result, err := controler2.GetSurvey(id, db.Db)
 	if err != nil {
 		fmt.Println(err)
@@ -109,23 +101,16 @@ func GetSurvey(res http.ResponseWriter, req *http.Request) {
 
 func GetSurveyByUser(res http.ResponseWriter, req *http.Request) {
 	fmt.Println("d")
-	decoder := json.NewDecoder(req.Body)
-	var user user.User
-	err := decoder.Decode(&user)
-	if err != nil {
-		fmt.Println("a")
-		http.Error(res, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
-		return
-	}
 	username := req.Header.Get("username")
 	password := req.Header.Get("password")
-	_, err = authorisation.Authorisate(username, password, db.Db)
+	id, err := authorisation.Authorisate(username, password, db.Db)
 	if err != nil {
 		fmt.Println(err)
 		http.Error(res, http.StatusText(http.StatusUnauthorized), http.StatusUnauthorized)
 		return
 	}
-	result, err := controler2.GetSurveyByUser(user.Id, db.Db)
+	fmt.Println(*id)
+	result, err := controler2.GetSurveyByUser(*id, db.Db)
 	if err != nil {
 		fmt.Println(err)
 		http.Error(res, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
@@ -151,7 +136,7 @@ func AnswerSurvey(res http.ResponseWriter, req *http.Request) {
 		http.Error(res, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
 		return
 	}
-	res.WriteHeader(http.StatusOK)
+	res.WriteHeader(http.StatusNoContent)
 }
 
 func GetAnswers(res http.ResponseWriter, req *http.Request) {

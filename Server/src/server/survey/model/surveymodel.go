@@ -3,6 +3,7 @@ package model
 import (
 	"database/sql"
 	"server/survey/model/survey"
+	"fmt"
 )
 
 func CreateSurvey(newSurvey *survey.Survey, idUser int, db *sql.DB) (*int, error) {
@@ -60,10 +61,11 @@ func GetSurvey(id int, db *sql.DB) (*survey.Survey, error) {
 }
 
 func GetSurveyByUser(idUser int, db *sql.DB) (*[]survey.Survey, error) {
-	stmt, err := db.Prepare("SELECT Survey.IdSurvey, Survey.question, FROM Survey WHERE Survey.User_idUser=?")
+	stmt, err := db.Prepare("SELECT Survey.IdSurvey, Survey.question FROM Survey WHERE Survey.User_idUser=?")
 	if err != nil {
 		return nil, err
 	}
+	fmt.Println(idUser)
 	res, err := stmt.Query(idUser)
 	if err != nil {
 		return nil, err
