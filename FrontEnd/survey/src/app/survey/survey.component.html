@@ -6,7 +6,7 @@
               <h1>{{surveys.Question}}</h1>
           </li>
           <li *ngFor="let choice of surveys.Choices" class="list-group-item">
-            <input type="checkbox" style="float: left" (ngModelChange)="checkBox(choice.Id)">
+            <input type="checkbox" style="float: left" (click)="checkBox(choice.Id)">
             {{choice.Choice}}
           </li>
       </ul>

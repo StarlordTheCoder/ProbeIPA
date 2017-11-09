@@ -23,7 +23,7 @@ func GetAnswers(idSurvey int, db *sql.DB) (*answers.GivenAnswers, error) {
 		if err != nil {
 			return nil, err
 		}
-		stmt, err := db.Prepare("SELECT COUNT(Answers.Choices_idChoices) FROM Answers where Answers.Choices_idChoices")
+		stmt, err := db.Prepare("SELECT COUNT(Results.Choices_idChoices) FROM Results where Results.Choices_idChoices=?")
 		if err != nil {
 			return nil, err
 		}
@@ -31,9 +31,11 @@ func GetAnswers(idSurvey int, db *sql.DB) (*answers.GivenAnswers, error) {
 		if err != nil {
 			return nil, err
 		}
-		err = res2.Scan(&amount)
-		if err != nil {
-			return nil, err
+		for res2.Next() {
+			err = res2.Scan(&amount)
+			if err != nil {
+				return nil, err
+			}
 		}
 		newanswers = append(newanswers, answers.GivenAnswer{IdChoice: idChoice, Choice: choice, Amount: amount})
 	}
@@ -43,7 +45,7 @@ func GetAnswers(idSurvey int, db *sql.DB) (*answers.GivenAnswers, error) {
 func AnswerSurvey(newAnswer *answers.NewAnswers, db *sql.DB) error {
 	tx, _ := db.Begin()
 	for _, answer := range newAnswer.NewAnswers {
-		stmt, err := db.Prepare("INSERT Result SET Choices_idChoices=?")
+		stmt, err := db.Prepare("INSERT Results SET Choices_idChoices=?")
 		if err != nil {
 			tx.Rollback()
 			return err

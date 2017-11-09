@@ -4,9 +4,12 @@
     <form class="form-signin">
       <h2 class="form-signin-heading">Bitte einloggen</h2>
       <label for="inputEmail" class="sr-only">Benutzername</label>
-      <input name="username" type="username" id="username" class="form-control" placeholder="Benutzername" required autofocus [(ngModel)]="user.Username">
+      <input name="username" type="username" id="username" class="form-control" placeholder="Benutzername" required autofocus [(ngModel)]="user.Username", required minlength="4" #username="ngModel">
       <label for="inputPassword" class="sr-only">Passwort</label>
-      <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Benutzername" required [(ngModel)]="user.Password">
+      <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Benutzername" required [(ngModel)]="user.Password" required minlength="4">
+      <div *ngIf="username.errors.minlength">
+        Name is required.
+      </div>
       <button class="btn btn-lg btn-primary btn-block login-button" (click)="login()">Login</button>
     </form>
   </div> <!-- /container -->

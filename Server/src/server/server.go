@@ -141,23 +141,17 @@ func AnswerSurvey(res http.ResponseWriter, req *http.Request) {
 
 func GetAnswers(res http.ResponseWriter, req *http.Request) {
 	fmt.Println("d")
-	decoder := json.NewDecoder(req.Body)
-	var Survey survey.Survey
-	err := decoder.Decode(&Survey)
-	if err != nil {
-		fmt.Println("a")
-		http.Error(res, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
-		return
-	}
+	vars := mux.Vars(req)
+	id, _ := strconv.Atoi(vars["id"])
 	username := req.Header.Get("username")
 	password := req.Header.Get("password")
-	_, err = authorisation.Authorisate(username, password, db.Db)
+	_, err := authorisation.Authorisate(username, password, db.Db)
 	if err != nil {
 		fmt.Println(err)
 		http.Error(res, http.StatusText(http.StatusUnauthorized), http.StatusUnauthorized)
 		return
 	}
-	result, err := controler2.GetAnswers(Survey.Id, db.Db)
+	result, err := controler2.GetAnswers(id, db.Db)
 	if err != nil {
 		fmt.Println(err)
 		http.Error(res, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
@@ -182,7 +176,7 @@ func main() {
 	r.HandleFunc("/api/getSurvey/{id}", GetSurvey).Methods("GET")
 	r.HandleFunc("/api/getSurveyByUser", GetSurveyByUser).Methods("GET")
 	r.HandleFunc("/api/answerSurvey", AnswerSurvey).Methods("POST")
-	r.HandleFunc("/api/getAnswers", GetAnswers).Methods("GET")
+	r.HandleFunc("/api/getAnswers/{id}", GetAnswers).Methods("GET")
 
 	headersOk := handlers.AllowedHeaders([]string{"content-type", "username", "password"})
 	originsOk := handlers.AllowedOrigins([]string{"*"})

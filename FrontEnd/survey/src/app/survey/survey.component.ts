@@ -15,15 +15,12 @@ export class SurveyComponent implements OnInit, OnDestroy {
   private id: number;
   private sub: any;
   public surveys: Survey = {} as Survey;
-  private newAnswers: NewAnswer[];
-  private headers: Header;
-  constructor (private http: HttpClient, private route: ActivatedRoute, private router: Router) {
-    this.headers = new Header();
-  }
+  private newAnswers: NewAnswer[] = [];
+  constructor (private http: HttpClient, private route: ActivatedRoute, private router: Router) {}
 
   public answerSurvey() {
     const answers: NewAnswers = {NewAnswers: this.newAnswers};
-    this.http.post(Const.baseUrl + 'answerSurvey', answers, { headers: this.headers.headers }).subscribe(data => {
+    this.http.post(Const.baseUrl + 'answerSurvey', answers).subscribe(data => {
       this.router.navigate(['/login']);
       console.warn(answers);
     }, err => {
@@ -35,9 +32,9 @@ export class SurveyComponent implements OnInit, OnDestroy {
     const answer: NewAnswer = {IdChoice: id};
     const index = this.newAnswers.indexOf(answer);
     if (index === -1) {
-      this.newAnswers.splice(index, 1);
-    } else {
       this.newAnswers.push(answer);
+    } else {
+      this.newAnswers.splice(index, 1);
     }
   }
 

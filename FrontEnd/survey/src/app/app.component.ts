@@ -9,6 +9,6 @@ export class AppComponent {
   title = 'app';
   public get isLogedin() {
     const savedUsername = sessionStorage.getItem('username');
-    return  savedUsername !== '' || savedUsername !== undefined;
+    return  savedUsername !== null;
   }
 }

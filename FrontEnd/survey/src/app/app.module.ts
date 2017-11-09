@@ -1,3 +1,4 @@
+import { ResultComponent } from './results/result.component';
 import { LoginComponent } from './login/login.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, isDevMode } from '@angular/core';
@@ -11,6 +12,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { Const } from './const';
 import { MainAdminComponent } from './main-admin/main-admin.component';
 import { SurveyComponent } from './survey/survey.component';
+import { SurveyCreateComponent } from './survey-create/survey-create.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -20,6 +24,8 @@ import { SurveyComponent } from './survey/survey.component';
     RegisterComponent,
     MainAdminComponent,
     SurveyComponent,
+    SurveyCreateComponent,
+    ResultComponent,
   ],
   imports: [
     BrowserModule,
@@ -27,6 +33,8 @@ import { SurveyComponent } from './survey/survey.component';
     AlertModule.forRoot(),
     FormsModule,
     HttpClientModule,
+    NgxChartsModule,
+    BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

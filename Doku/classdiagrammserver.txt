@@ -1,0 +1,92 @@
+@startuml
+
+title Server Klassendiagramm
+
+class NewAnswers {
+  +[]NewAnser NewAnswers
+}
+class NewAnswer {
+  +int IDChoice
+}
+class GivenAnswers {
+  +[]GivenAnswer GivenAnswers
+}
+class GivenAnswer {
+  +int IdChoice
+  +string Choice
+  +int Amount
+}
+class Survey {
+  +int Id
+  +string Question
+  +[]Choice Choices
+}
+class Choice {
+  +int Id
+  +string Choice
+}
+
+class User {
+  +int Id
+  +string Username
+  +strin Password
+}
+
+class UserModel {
+  +error RegisterUser(username string, password strin, db *sql.DB)
+  +*user.User, error Login(username string, db *sql.DB)
+}
+class SurveyModel{
+  +*int, error CreateSurvey(newSurvey *survey.Survey, idUser int,db *sql.DB)
+  +*survey.Survey, error GetSurvey(id int, db *sql.DB)
+  +*[]survey.Survey, error GetSurveyByUser(idUser int, db *sql.DB)
+}
+class AnswerModel {
+  +*answers.GivenAnswers, error GetAnswers(idSurvey int, db *sql.DB)
+  +*error AnswerSurvey(newAnswer *answers.NewAnswers, db *sql.DB)
+}
+class UserControler {
+  +error RegisterUser(username string, password string, db *sql.DB)
+}
+class SurveyControler {
+  +*[]byte, error CreateSurvey(newSurvey *survey.Survey, idUser int, db *sql.DB)
+  +*[]byte, error GetSurvey(idSurvey int, db *sql.DB)
+  +*[]byte, error GetSurveyByUser(idUser int, db *sql.DB)
+  +*[]byte, error GetAnswers(idSurvey int, db *sqlDB)
+  +error SetAnswer(newAnswer *answer.NewAnswer, db *sql,DB)
+}
+class Authorisation {
+  +*int, error Authorisate(username string, password string)
+}
+class Bcrypt {
+  + []byte, error Encrypt(toEncrypt []byte)
+  +error CompareHashes(toCompare1 []byte, toCompare2 []byte)
+}
+class Server {
+  +main()
+  +Register(res http.ResponsWriter, req *http.Request)
+  +Login(res http.ResponsWriter, req *http.Request)
+  +CreateSurvey(res http.ResponsWriter, req *http.Request)
+  +GetSurvey(res http.ResponsWriter, req *http.Request)
+  +GetSurveyByUser(res http.ResponsWriter, req *http.Request)
+  +AnswerSurvey(res http.ResponsWriter, req *http.Request)
+  +GetAnswers(res http.ResponsWriter, req *http.Request)
+}
+
+NewAnswers *-down- NewAnswer 
+GivenAnswers *-down- GivenAnswer
+Survey *-down- Choice
+SurveyModel *-down- Survey
+AnswerModel *-down- GivenAnswers
+AnswerModel *-down- NewAnswers
+UserModel *-down- User
+UserControler *-down- UserModel
+UserControler *-down- Bcrypt
+SurveyControler *-down- AnswerModel
+SurveyControler *-down- SurveyModel
+Authorisation *-down- Bcrypt
+Server *-down- UserControler
+Server *-down- Authorisation
+Server *-down- SurveyControler
+
+@enduml
