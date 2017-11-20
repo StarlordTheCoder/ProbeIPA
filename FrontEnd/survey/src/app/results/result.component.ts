@@ -27,7 +27,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   public ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
       this.id = +params['id'];
-
+      //load Answers from Server and store it for ngx-charts
       this.http.get<GivenAnswers>(Const.baseUrl + 'getAnswers/' + this.id, { headers: this.headers.headers } ).subscribe(data => {
          this.chartData = data.GivenAnswers.map((ga) =>  ({ name: ga.Choice, value: ga.Amount }));
       }, err => {

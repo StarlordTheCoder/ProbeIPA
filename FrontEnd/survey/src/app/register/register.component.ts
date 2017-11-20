@@ -11,9 +11,14 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent {
   public user: User = {Id: 0} as User;
-  constructor (private http: HttpClient, private router: Router) {}
+  constructor (private http: HttpClient, private router: Router) {
+    if (sessionStorage.getItem('username') !== null) {
+      this.router.navigate(['/admin']);
+    }
+  }
   public register() {
     console.warn(this.user);
+    //Register user on Server
     this.http.post(Const.baseUrl + 'register', this.user).subscribe(data => {
       sessionStorage.setItem('username', this.user.Username);
       sessionStorage.setItem('password', this.user.Password);

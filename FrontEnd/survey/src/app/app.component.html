@@ -4,7 +4,8 @@
 <div class="navbar-header">
   <a class="navbar-brand" routerLink="/login" *ngIf="!isLogedin">Login</a>
   <a class="navbar-brand" routerLink="/register"  *ngIf="!isLogedin">Registrieren</a>
-  <a class="navbar-brand" routerLink="/createSurvey"  *ngIf="isLogedin">New Survey</a>
+  <a class="navbar-brand" routerLink="/createSurvey"  *ngIf="isLogedin">Neue Umfrage erstellen</a>
+  <a class="navbar-brand" routerLink="/login" *ngIf="isLogedin" (click)="logout()">Logout</a>
 </div>
 </nav>
 <router-outlet></router-outlet>

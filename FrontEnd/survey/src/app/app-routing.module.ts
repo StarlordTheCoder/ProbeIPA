@@ -8,6 +8,7 @@ import { SurveyComponent } from './survey/survey.component';
 import { ResultComponent } from './results/result.component';
 import { AuthGuardService } from './guard';
 
+//Routen
 const routes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'register', component: RegisterComponent},

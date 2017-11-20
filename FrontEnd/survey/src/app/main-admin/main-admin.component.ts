@@ -15,6 +15,7 @@ export class MainAdminComponent {
   private headers: Header;
   constructor (private http: HttpClient, private router: Router) {
     this.headers = new Header();
+    //load Surveys from Server
     this.http.get<Survey[]>(Const.baseUrl + 'getSurveyByUser', { headers: this.headers.headers }).subscribe(data => {
       this.surveys = data;
     }, err => {

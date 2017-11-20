@@ -11,4 +11,8 @@ export class AppComponent {
     const savedUsername = sessionStorage.getItem('username');
     return  savedUsername !== null;
   }
+  logout() {
+    sessionStorage.removeItem('username');
+    sessionStorage.removeItem('password');
+  }
 }

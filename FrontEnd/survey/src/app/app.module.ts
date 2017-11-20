@@ -15,6 +15,7 @@ import { SurveyComponent } from './survey/survey.component';
 import { SurveyCreateComponent } from './survey-create/survey-create.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AuthGuardService } from './guard';
 
 
 @NgModule({
@@ -36,7 +37,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     NgxChartsModule,
     BrowserAnimationsModule,
   ],
-  providers: [],
+  providers: [
+    AuthGuardService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

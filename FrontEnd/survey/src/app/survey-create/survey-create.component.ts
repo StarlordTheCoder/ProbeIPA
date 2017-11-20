@@ -20,6 +20,7 @@ export class SurveyCreateComponent {
   }
   createSurvey() {
     const survey = { Id: 0, Question: this.question, Choices: this.choices.filter(c => c.Choice !== '')} as Survey;
+    //send new Survey to Server
     this.http.post<number>(Const.baseUrl + 'createSurvey', survey, { headers: this.headers.headers }).subscribe(data => {
       const newId = data;
       this.router.navigate(['/survey', newId]);
@@ -27,6 +28,7 @@ export class SurveyCreateComponent {
       console.warn('error', err);
     });
   }
+  //check if new Choice input should be created
   checkList(touched: boolean) {
     if (!touched && this.choices.length <= 10) {
       this.choices.push({Id: 0, Choice: ''});

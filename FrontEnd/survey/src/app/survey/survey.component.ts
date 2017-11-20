@@ -18,6 +18,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
   private newAnswers: NewAnswer[] = [];
   constructor (private http: HttpClient, private route: ActivatedRoute, private router: Router) {}
 
+  //Send Answer to Server
   public answerSurvey() {
     const answers: NewAnswers = {NewAnswers: this.newAnswers};
     this.http.post(Const.baseUrl + 'answerSurvey', answers).subscribe(data => {
@@ -27,7 +28,7 @@ export class SurveyComponent implements OnInit, OnDestroy {
       console.warn('error', err);
     });
   }
-
+  //If a Choice gets selected or deselcted it gets stored or deleted
   public checkBox(id: number) {
     const answer: NewAnswer = {IdChoice: id};
     const index = this.newAnswers.indexOf(answer);
